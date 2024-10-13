@@ -1,0 +1,13 @@
+{
+  "compatibilityLevel": "JAVA_8",
+  "package": "com.dikiytechies.rotp_battleroyale.mixin",
+  "refmap": "mixins.rotp_battleroyale.refmap.json",
+  "minVersion": "0.8",
+  "mixins": [
+    "HamonClearMultiplier",
+    "HamonMultiplierMixin"
+  ],
+  "client": [
+
+  ]
+}
