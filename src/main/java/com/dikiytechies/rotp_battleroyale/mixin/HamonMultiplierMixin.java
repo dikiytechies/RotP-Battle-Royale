@@ -2,8 +2,12 @@ package com.dikiytechies.rotp_battleroyale.mixin;
 
 import com.dikiytechies.rotp_battleroyale.capability.HamonUtilCap;
 import com.dikiytechies.rotp_battleroyale.capability.HamonUtilProvider;
+import com.dikiytechies.rotp_battleroyale.init.power.non_stand.HamonActions;
 import com.github.standobyte.jojo.JojoModConfig;
+import com.github.standobyte.jojo.action.Action;
+import com.github.standobyte.jojo.init.power.non_stand.hamon.ModHamonActions;
 import com.github.standobyte.jojo.init.power.non_stand.hamon.ModHamonSkills;
+import com.github.standobyte.jojo.power.impl.nonstand.INonStandPower;
 import com.github.standobyte.jojo.power.impl.nonstand.TypeSpecificData;
 import com.github.standobyte.jojo.power.impl.nonstand.type.hamon.HamonData;
 import com.github.standobyte.jojo.power.impl.nonstand.type.hamon.skill.AbstractHamonSkill;
@@ -12,6 +16,9 @@ import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(HamonData.class)
 public abstract class HamonMultiplierMixin extends TypeSpecificData {
@@ -43,5 +50,9 @@ public abstract class HamonMultiplierMixin extends TypeSpecificData {
             pointsIncFrac--;
         }
         setHamonStatPoints(stat, getStatPoints(stat) + points, false, false);
+    }
+    @Inject(method = "isActionUnlocked", at = @At(value = "HEAD"), cancellable = true, remap = false)
+    public void addSkill(Action<INonStandPower> action, INonStandPower powerData, CallbackInfoReturnable<Boolean> cir) {
+        if (action == HamonActions.CREATE_INJECTION.get()) cir.setReturnValue(true);
     }
 }

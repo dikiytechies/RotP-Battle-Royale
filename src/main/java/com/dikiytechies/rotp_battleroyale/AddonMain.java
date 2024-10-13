@@ -2,6 +2,8 @@ package com.dikiytechies.rotp_battleroyale;
 
 import com.dikiytechies.rotp_battleroyale.capability.CapabilityHandler;
 import com.dikiytechies.rotp_battleroyale.init.InitItems;
+import com.dikiytechies.rotp_battleroyale.init.power.non_stand.HamonActions;
+import com.dikiytechies.rotp_battleroyale.init.power.non_stand.VampirismActions;
 import com.dikiytechies.rotp_battleroyale.network.AddonPackets;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -25,6 +27,8 @@ public class AddonMain {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
         modEventBus.addListener(this::preInit);
+        VampirismActions.loadRegistryObjects();
+        HamonActions.loadRegistryObjects();
         InitItems.ITEMS.register(modEventBus);
     }
     

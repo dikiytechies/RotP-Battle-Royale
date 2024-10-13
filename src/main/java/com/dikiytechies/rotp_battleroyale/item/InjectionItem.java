@@ -6,6 +6,7 @@ import com.github.standobyte.jojo.init.ModStatusEffects;
 import com.github.standobyte.jojo.init.power.non_stand.ModPowers;
 import com.github.standobyte.jojo.power.impl.nonstand.INonStandPower;
 import com.github.standobyte.jojo.power.impl.nonstand.type.hamon.HamonData;
+import com.github.standobyte.jojo.power.impl.nonstand.type.vampirism.VampirismData;
 import com.github.standobyte.jojo.power.impl.stand.IStandPower;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -16,6 +17,8 @@ import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.LazyOptional;
 
+import java.util.Optional;
+
 public class InjectionItem extends Item {
     private final InjectionType injectionType;
     public InjectionItem(Properties properties, InjectionType injectionType) {
@@ -25,37 +28,73 @@ public class InjectionItem extends Item {
 
     public enum InjectionType {
         RESOLVE,
-        HAMON
+        HAMON,
+        VAMPIRIC
+    }
+
+    protected int getCooldown() {
+        return 2400; //+1200 for hamon vamps (120 sec + 60)
     }
 
     @Override
     public ActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
         ItemStack stack = player.getItemInHand(hand);
+        IStandPower power = IStandPower.getPlayerStandPower(player);
+        INonStandPower nonStandPower = INonStandPower.getPlayerNonStandPower(player);
         switch (injectionType) {
             case RESOLVE:
-                IStandPower power = IStandPower.getPlayerStandPower(player);
                 if (power.getType() != null) {
                     if (power.getResolveLevel() < 4) {
                         power.setResolveLevel(power.getResolveLevel() + 1);
                     } else {
                         player.addEffect(new EffectInstance(ModStatusEffects.RESOLVE.get(), 1800, 4, false, false, true));
+                        player.getCooldowns().addCooldown(this, getCooldown());
+
                     }
+                    if (!player.isCreative()) stack.shrink(1);
                     return ActionResult.success(stack);
                 }
                 break;
             case HAMON:
-                INonStandPower nonStandPower = INonStandPower.getPlayerNonStandPower(player);
-                if (nonStandPower.getType() == ModPowers.HAMON.get()) {
-                    HamonData hamon = nonStandPower.getTypeSpecificData(ModPowers.HAMON.get()).get();
-                    hamon.setBreathingLevel(hamon.getBreathingLevel() + 20);
-                    LazyOptional<HamonUtilCap> livingDataOptional = player.getCapability(HamonUtilProvider.CAPABILITY);
-                    livingDataOptional.ifPresent(livingData -> {
-                        float points = livingData.getPointsMultiplier() == 0.0f? 1.0f: livingData.getPointsMultiplier();
-                        livingData.setPointsMultiplier(points + 1.0f);
-                    });
+                if (nonStandPower.getType() == null) {
+                    nonStandPower.givePower(ModPowers.HAMON.get());
+                    if (!player.isCreative()) stack.shrink(1);
                     return ActionResult.success(stack);
                 }
+                else {
+                    if (nonStandPower.getType() == ModPowers.HAMON.get()) {
+                        HamonData hamon = nonStandPower.getTypeSpecificData(ModPowers.HAMON.get()).get();
+                        hamon.setBreathingLevel(hamon.getBreathingLevel() + 20);
+                        LazyOptional<HamonUtilCap> livingDataOptional = player.getCapability(HamonUtilProvider.CAPABILITY);
+                        livingDataOptional.ifPresent(livingData -> {
+                            float points = livingData.getPointsMultiplier() == 0.0f ? 1.0f : livingData.getPointsMultiplier();
+                            livingData.setPointsMultiplier(points + 1.0f);
+                        });
+                        if (!player.isCreative()) stack.shrink(1);
+                        return ActionResult.success(stack);
+                    } else if (nonStandPower.getType() == ModPowers.VAMPIRISM.get()) {
+                        nonStandPower.getTypeSpecificData(ModPowers.VAMPIRISM.get()).ifPresent(data -> data.setVampireHamonUser(true, Optional.empty()));
+                        player.addEffect(new EffectInstance(ModStatusEffects.SUN_RESISTANCE.get(), 2800, 0, false, false, true));
+                        player.getCooldowns().addCooldown(this, getCooldown() + 1200);
+                        if (!player.isCreative()) stack.shrink(1);
+                        return ActionResult.success(stack);
+                    }
+                }
                 break;
+            case VAMPIRIC:
+                if (nonStandPower.getType() != ModPowers.VAMPIRISM.get()) {
+                    nonStandPower.givePower(ModPowers.VAMPIRISM.get());
+                    nonStandPower.getTypeSpecificData(ModPowers.VAMPIRISM.get()).ifPresent(data -> data.setVampireFullPower(true));
+                } else {
+                    nonStandPower.addEnergy(nonStandPower.getMaxEnergy() * 0.15F);
+                    if (player.getEffect(ModStatusEffects.VAMPIRE_SUN_BURN.get()) == null) {
+                        player.addEffect(new EffectInstance(ModStatusEffects.VAMPIRE_SUN_BURN.get(), 300, 0, false, false, true));
+                    } else {
+                        player.addEffect(new EffectInstance(ModStatusEffects.VAMPIRE_SUN_BURN.get(), player.getEffect(ModStatusEffects.VAMPIRE_SUN_BURN.get()).getDuration() + 300, 0, false, false, true));
+                    }
+                }
+                if (!player.isCreative()) stack.shrink(1);
+                return ActionResult.success(stack);
         }
         return ActionResult.fail(stack);
     }

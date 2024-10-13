@@ -16,4 +16,6 @@ public class InitItems {
             () -> new InjectionItem(new Item.Properties().stacksTo(1).tab(JojoMod.MAIN_TAB).rarity(Rarity.RARE), InjectionItem.InjectionType.RESOLVE));
     public static final RegistryObject<InjectionItem> HAMON_INJECTION = ITEMS.register("hamon_injection",
             () -> new InjectionItem(new Item.Properties().stacksTo(1).tab(JojoMod.MAIN_TAB).rarity(Rarity.RARE), InjectionItem.InjectionType.HAMON));
+    public static final RegistryObject<InjectionItem> VAMPIRIC_INJECTION = ITEMS.register("vampiric_injection",
+            () -> new InjectionItem(new Item.Properties().stacksTo(1).tab(JojoMod.MAIN_TAB).rarity(Rarity.RARE), InjectionItem.InjectionType.VAMPIRIC));
 }

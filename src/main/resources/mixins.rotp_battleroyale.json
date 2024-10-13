@@ -4,8 +4,10 @@
   "refmap": "mixins.rotp_battleroyale.refmap.json",
   "minVersion": "0.8",
   "mixins": [
+    "CancelVampireCure",
     "HamonClearMultiplier",
-    "HamonMultiplierMixin"
+    "HamonMultiplierMixin",
+    "NoTeachersForHamon"
   ],
   "client": [
 
