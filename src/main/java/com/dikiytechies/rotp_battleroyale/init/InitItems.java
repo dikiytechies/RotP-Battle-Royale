@@ -3,7 +3,6 @@ package com.dikiytechies.rotp_battleroyale.init;
 import com.dikiytechies.rotp_battleroyale.AddonMain;
 import com.dikiytechies.rotp_battleroyale.item.InjectionItem;
 import com.github.standobyte.jojo.JojoMod;
-import net.minecraft.item.Food;
 import net.minecraft.item.Item;
 import net.minecraft.item.Rarity;
 import net.minecraftforge.fml.RegistryObject;

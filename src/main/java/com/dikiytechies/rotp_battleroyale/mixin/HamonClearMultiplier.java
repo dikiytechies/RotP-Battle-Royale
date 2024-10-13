@@ -1,6 +1,5 @@
 package com.dikiytechies.rotp_battleroyale.mixin;
 
-import com.dikiytechies.rotp_battleroyale.AddonMain;
 import com.dikiytechies.rotp_battleroyale.capability.HamonUtilProvider;
 import com.github.standobyte.jojo.action.Action;
 import com.github.standobyte.jojo.power.impl.nonstand.INonStandPower;
@@ -23,8 +22,6 @@ public abstract class HamonClearMultiplier extends NonStandPowerType<HamonData> 
 
     @Inject(method = "onClear", at = @At(value = "HEAD"), remap = false)
     public void clearMultiplier(INonStandPower power, CallbackInfo ci) {
-        power.getUser().getCapability(HamonUtilProvider.CAPABILITY).ifPresent(data -> {
-            data.setPointsMultiplier(1.0f);
-        });
+        power.getUser().getCapability(HamonUtilProvider.CAPABILITY).ifPresent(data -> data.setPointsMultiplier(1.0f));
     }
 }

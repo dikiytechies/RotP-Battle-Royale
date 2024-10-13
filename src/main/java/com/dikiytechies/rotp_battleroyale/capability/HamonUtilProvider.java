@@ -1,6 +1,5 @@
 package com.dikiytechies.rotp_battleroyale.capability;
 
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.INBT;
 import net.minecraft.util.Direction;

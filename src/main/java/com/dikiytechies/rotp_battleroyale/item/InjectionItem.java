@@ -23,7 +23,7 @@ public class InjectionItem extends Item {
         this.injectionType = injectionType;
     }
 
-    public static enum InjectionType {
+    public enum InjectionType {
         RESOLVE,
         HAMON
     }
