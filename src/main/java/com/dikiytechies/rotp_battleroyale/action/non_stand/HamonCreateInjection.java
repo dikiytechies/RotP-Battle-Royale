@@ -20,8 +20,8 @@ public class HamonCreateInjection extends HamonAction {
 
     @Override
     protected ActionConditionResult checkHeldItems(LivingEntity user, INonStandPower power) {
-        if (user.getItemInHand(Hand.OFF_HAND).getItem() == Items.SKELETON_SKULL.getItem() ||
-                user.getMainHandItem().getItem() == Items.SKELETON_SKULL.getItem()) {
+        if ((user.getItemInHand(Hand.OFF_HAND).getItem() == Items.SKELETON_SKULL.getItem() && user.getMainHandItem().getItem() == InitItems.EMPTY_INJECTION.get()) ||
+                (user.getMainHandItem().getItem() == Items.SKELETON_SKULL.getItem() && user.getOffhandItem().getItem() == InitItems.EMPTY_INJECTION.get())) {
             return ActionConditionResult.POSITIVE;
         }
         return ActionConditionResult.NEGATIVE;
@@ -33,18 +33,27 @@ public class HamonCreateInjection extends HamonAction {
             if (user instanceof PlayerEntity) {
                 PlayerEntity playerEntity = (PlayerEntity) user;
                 ItemStack stack = null;
+                ItemStack offstack = null;
                 Hand hand = null;
-                if (user.getMainHandItem().getItem() == Items.SKELETON_SKULL.getItem()) {
+                if (user.getMainHandItem().getItem() == Items.SKELETON_SKULL.getItem() && user.getOffhandItem().getItem() == InitItems.EMPTY_INJECTION.get()) {
                     stack = user.getMainHandItem();
+                    offstack = user.getOffhandItem();
                     hand = Hand.MAIN_HAND;
-                } else if (user.getOffhandItem().getItem() == Items.SKELETON_SKULL.getItem()) {
-                    stack = user.getMainHandItem();
+                } else if (user.getOffhandItem().getItem() == Items.SKELETON_SKULL.getItem() && user.getMainHandItem().getItem() == InitItems.EMPTY_INJECTION.get()) {
+                    stack = user.getOffhandItem();
+                    offstack = user.getMainHandItem();
                     hand = Hand.OFF_HAND;
                 }
-                if (stack != null && !playerEntity.isCreative()) stack.shrink(1);
-                if (hand == Hand.MAIN_HAND && !playerEntity.isCreative() && stack.getCount() == 0) {
-                    playerEntity.setItemInHand(hand, new ItemStack(InitItems.HAMON_INJECTION.get()));
+                if (((hand == Hand.MAIN_HAND && stack.getCount() == 1) || (hand == Hand.OFF_HAND && offstack.getCount() == 1)) && !playerEntity.isCreative()) {
+                    playerEntity.setItemInHand(Hand.MAIN_HAND, new ItemStack(InitItems.HAMON_INJECTION.get()));
+                    if (Hand.OFF_HAND == hand) {
+                        stack.shrink(1);
+                    } else offstack.shrink(1);
                 } else {
+                    if (hand != null && !playerEntity.isCreative()) {
+                        stack.shrink(1);
+                        offstack.shrink(1);
+                    }
                     playerEntity.addItem(new ItemStack(InitItems.HAMON_INJECTION.get()));
                 }
             }

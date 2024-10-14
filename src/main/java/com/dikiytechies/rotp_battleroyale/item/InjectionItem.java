@@ -2,6 +2,7 @@ package com.dikiytechies.rotp_battleroyale.item;
 
 import com.dikiytechies.rotp_battleroyale.capability.HamonUtilCap;
 import com.dikiytechies.rotp_battleroyale.capability.HamonUtilProvider;
+import com.dikiytechies.rotp_battleroyale.init.InitItems;
 import com.github.standobyte.jojo.init.ModStatusEffects;
 import com.github.standobyte.jojo.init.power.non_stand.ModPowers;
 import com.github.standobyte.jojo.power.impl.nonstand.INonStandPower;
@@ -9,6 +10,7 @@ import com.github.standobyte.jojo.power.impl.nonstand.type.hamon.HamonData;
 import com.github.standobyte.jojo.power.impl.nonstand.type.vampirism.VampirismData;
 import com.github.standobyte.jojo.power.impl.stand.IStandPower;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.EffectInstance;
@@ -29,7 +31,9 @@ public class InjectionItem extends Item {
     public enum InjectionType {
         RESOLVE,
         HAMON,
-        VAMPIRIC
+        VAMPIRIC,
+        EMPTY,
+        CRACKED
     }
 
     protected int getCooldown() {
@@ -51,14 +55,19 @@ public class InjectionItem extends Item {
                         player.getCooldowns().addCooldown(this, getCooldown());
 
                     }
-                    if (!player.isCreative()) stack.shrink(1);
+                    if (!player.isCreative() && !world.isClientSide()) {
+                        player.setItemInHand(hand, new ItemStack(InitItems.EMPTY_INJECTION.get(), 1));
+                    }
                     return ActionResult.success(stack);
                 }
                 break;
             case HAMON:
                 if (nonStandPower.getType() == null) {
                     nonStandPower.givePower(ModPowers.HAMON.get());
-                    if (!player.isCreative()) stack.shrink(1);
+                    if (!player.isCreative()) {
+                        stack.shrink(1);
+                    }
+                    if (stack.getCount() == 1) player.setItemInHand(hand, new ItemStack(InitItems.EMPTY_INJECTION.get()));
                     return ActionResult.success(stack);
                 }
                 else {
@@ -70,13 +79,17 @@ public class InjectionItem extends Item {
                             float points = livingData.getPointsMultiplier() == 0.0f ? 1.0f : livingData.getPointsMultiplier();
                             livingData.setPointsMultiplier(points + 1.0f);
                         });
-                        if (!player.isCreative()) stack.shrink(1);
+                        if (!player.isCreative() && !world.isClientSide()) {
+                            player.setItemInHand(hand, new ItemStack(InitItems.EMPTY_INJECTION.get(), 1));
+                        }
                         return ActionResult.success(stack);
                     } else if (nonStandPower.getType() == ModPowers.VAMPIRISM.get()) {
                         nonStandPower.getTypeSpecificData(ModPowers.VAMPIRISM.get()).ifPresent(data -> data.setVampireHamonUser(true, Optional.empty()));
                         player.addEffect(new EffectInstance(ModStatusEffects.SUN_RESISTANCE.get(), 2800, 0, false, false, true));
                         player.getCooldowns().addCooldown(this, getCooldown() + 1200);
-                        if (!player.isCreative()) stack.shrink(1);
+                        if (!player.isCreative() && !world.isClientSide()) {
+                            player.setItemInHand(hand, new ItemStack(InitItems.CRACKED_INJECTION.get(), 1));
+                        }
                         return ActionResult.success(stack);
                     }
                 }
@@ -93,7 +106,9 @@ public class InjectionItem extends Item {
                         player.addEffect(new EffectInstance(ModStatusEffects.VAMPIRE_SUN_BURN.get(), player.getEffect(ModStatusEffects.VAMPIRE_SUN_BURN.get()).getDuration() + 300, 0, false, false, true));
                     }
                 }
-                if (!player.isCreative()) stack.shrink(1);
+                if (!player.isCreative() && !world.isClientSide()) {
+                    player.setItemInHand(hand, new ItemStack(InitItems.CRACKED_INJECTION.get(), 1));
+                }
                 return ActionResult.success(stack);
         }
         return ActionResult.fail(stack);
