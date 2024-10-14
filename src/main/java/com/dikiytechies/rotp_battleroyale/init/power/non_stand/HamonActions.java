@@ -42,7 +42,7 @@ public class HamonActions {
                     HAMON_TYPE_RMB_HOTBAR.set(hamon, edited);
                 } catch (IllegalArgumentException | IllegalAccessException e) {
                     e.printStackTrace();
-                    System.out.println("[VAMP] EHHH FAIL");
+                    System.out.println("[STEAMED HAM] EHHH FAIL");
                     throw new RuntimeException(e);
                 }
             }
