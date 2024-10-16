@@ -1,6 +1,7 @@
 package com.dikiytechies.rotp_battleroyale.util;
 
 import com.dikiytechies.rotp_battleroyale.AddonMain;
+import com.dikiytechies.rotp_battleroyale.command.Start;
 import com.dikiytechies.rotp_battleroyale.command.Teams;
 import com.mojang.brigadier.CommandDispatcher;
 import net.minecraft.command.CommandSource;
@@ -14,5 +15,6 @@ public class ForgeBusEventSubscriber {
     public static void onRegisterCommands(RegisterCommandsEvent event) {
         CommandDispatcher<CommandSource> dispatcher = event.getDispatcher();
         Teams.register(dispatcher);
+        Start.register(dispatcher);
     }
 }

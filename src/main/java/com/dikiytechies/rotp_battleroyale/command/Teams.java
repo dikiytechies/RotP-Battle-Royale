@@ -25,7 +25,7 @@ public class Teams {
         JojoCommandsCommand.addCommand("teams");
     }
 
-    public static int clearTeams(CommandSource source) {
+    protected static int clearTeams(CommandSource source) {
         ServerScoreboard scoreboard = source.getLevel().getScoreboard();
         if (!scoreboard.getPlayerTeams().isEmpty()) {
             ArrayList<ScorePlayerTeam> toRemove = new ArrayList<>();
@@ -38,7 +38,7 @@ public class Teams {
         return 0;
     }
 
-    public static int fillTeams(CommandSource source, int amount) {
+    protected static int fillTeams(CommandSource source, int amount) {
         ServerScoreboard scoreboard = source.getLevel().getScoreboard();
         if (scoreboard.getPlayerTeam("br_0") == null) {
             Map<ScorePlayerTeam, Integer> spaces = new HashMap<>();
