@@ -3,7 +3,6 @@ package com.dikiytechies.rotp_battleroyale.init.power.non_stand;
 import com.dikiytechies.rotp_battleroyale.AddonMain;
 import com.dikiytechies.rotp_battleroyale.action.non_stand.HamonCreateInjection;
 import com.github.standobyte.jojo.action.non_stand.HamonAction;
-import com.github.standobyte.jojo.action.non_stand.NonStandAction;
 import com.github.standobyte.jojo.init.power.non_stand.hamon.ModHamonActions;
 import com.github.standobyte.jojo.power.impl.nonstand.type.NonStandPowerType;
 import com.github.standobyte.jojo.power.impl.nonstand.type.hamon.HamonPowerType;

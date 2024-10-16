@@ -1,6 +1,5 @@
 package com.dikiytechies.rotp_battleroyale.mixin;
 
-import com.github.standobyte.jojo.power.impl.nonstand.type.hamon.HamonUtil;
 import com.github.standobyte.jojo.power.impl.nonstand.type.hamon.skill.AbstractHamonSkill;
 import com.github.standobyte.jojo.power.impl.nonstand.type.hamon.skill.BaseHamonSkill;
 import org.spongepowered.asm.mixin.Mixin;

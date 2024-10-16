@@ -15,7 +15,6 @@ import net.minecraftforge.fml.common.Mod;
 
 import javax.annotation.Nonnull;
 import java.lang.reflect.Field;
-import java.util.Arrays;
 import java.util.function.Supplier;
 
 import static com.github.standobyte.jojo.init.power.ModCommonRegisters.ACTIONS;

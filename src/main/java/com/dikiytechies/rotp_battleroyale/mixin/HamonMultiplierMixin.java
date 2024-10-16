@@ -5,7 +5,6 @@ import com.dikiytechies.rotp_battleroyale.capability.HamonUtilProvider;
 import com.dikiytechies.rotp_battleroyale.init.power.non_stand.HamonActions;
 import com.github.standobyte.jojo.JojoModConfig;
 import com.github.standobyte.jojo.action.Action;
-import com.github.standobyte.jojo.init.power.non_stand.hamon.ModHamonActions;
 import com.github.standobyte.jojo.init.power.non_stand.hamon.ModHamonSkills;
 import com.github.standobyte.jojo.power.impl.nonstand.INonStandPower;
 import com.github.standobyte.jojo.power.impl.nonstand.TypeSpecificData;
