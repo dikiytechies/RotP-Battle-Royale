@@ -1,0 +1,17 @@
+{
+  "item.rotp_battleroyale.resolve_injection": "Инъекция решимости",
+  "item.rotp_battleroyale.hamon_injection": "Инъекция хамона",
+  "item.rotp_battleroyale.vampiric_injection": "Инъекция вампиризма",
+  "item.rotp_battleroyale.empty_injection": "Пустой шприц",
+  "item.rotp_battleroyale.cracked_injection": "Потрескавшийся шприц",
+
+  "action.jojo.hamon_create_injection": "Наполнить шприц Хамоном",
+  "action.jojo.vampirism_create_injection": "Наполнить шприц кровью",
+
+  "commands.cleared.success": "Все комманды были стёрты успешно",
+  "commands.cleared.failed": "Команды уже не существуют",
+  "commands.filled.success": "Все команды были заполнены игроками успешно",
+  "commands.filled.failed": "Ещё имеются существующие команды",
+  "commands.filled.failed.no_survival": "Отсутствуют игроки режима Выживание",
+  "jojo.command.desc.teams": "Связанные с картой новшества"
+}

@@ -1,3 +1,17 @@
 {
+  "item.rotp_battleroyale.resolve_injection": "Resolve Injection",
+  "item.rotp_battleroyale.hamon_injection": "Hamon Injection",
+  "item.rotp_battleroyale.vampiric_injection": "Vampiric Injection",
+  "item.rotp_battleroyale.empty_injection": "Empty Syringe",
+  "item.rotp_battleroyale.cracked_injection": "Cracked Syringe",
 
+  "action.jojo.hamon_create_injection": "Fill Syringe with Hamon",
+  "action.jojo.vampirism_create_injection": "Fill Syringe with Blood",
+
+  "commands.cleared.success": "All teams have been erased successfully",
+  "commands.cleared.failed": "There are no teams already",
+  "commands.filled.success": "All teams have been filled with players successfully",
+  "commands.filled.failed": "There are already existing teams",
+  "commands.filled.failed.no_survival": "There are no survival players to be added",
+  "jojo.command.desc.teams": "Map related tweaks"
 }

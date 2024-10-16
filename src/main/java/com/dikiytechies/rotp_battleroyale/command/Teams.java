@@ -1,6 +1,5 @@
 package com.dikiytechies.rotp_battleroyale.command;
 
-import com.dikiytechies.rotp_battleroyale.AddonMain;
 import com.github.standobyte.jojo.command.JojoCommandsCommand;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
@@ -12,7 +11,6 @@ import net.minecraft.scoreboard.ScorePlayerTeam;
 import net.minecraft.scoreboard.ServerScoreboard;
 import net.minecraft.scoreboard.Team;
 import net.minecraft.util.text.TranslationTextComponent;
-import org.lwjgl.system.CallbackI;
 
 import java.util.*;
 
@@ -49,8 +47,9 @@ public class Teams {
                 scoreboard.getPlayerTeam("br_" + i).setAllowFriendlyFire(false);
                 scoreboard.getPlayerTeam("br_" + i).setNameTagVisibility(Team.Visible.HIDE_FOR_OTHER_TEAMS);
                 List<ServerPlayerEntity> players = source.getLevel().getPlayers(ServerPlayerEntity::isAlive);
+                List<ServerPlayerEntity> toRemoveNonSurv = new ArrayList<>();
                 for (ServerPlayerEntity s : players) {
-                    if (!s.gameMode.isSurvival()) players.remove(s);
+                    if (!s.gameMode.isSurvival()) toRemoveNonSurv.add(s);
                 }
                 if (i != amount - 1 || i % amount == 0) {
                     spaces.put(scoreboard.getPlayerTeam("br_" + i), (int) Math.floor((double) players.size() / amount));
@@ -83,6 +82,9 @@ public class Teams {
         List<ServerPlayerEntity> players = source.getLevel().getPlayers(ServerPlayerEntity::isAlive);
         for (ServerPlayerEntity p: players) {
             if (!p.gameMode.isSurvival()) players.remove(p);
+        }
+        if (players.isEmpty()) {
+            source.sendFailure(new TranslationTextComponent("commands.filled.failed.no_survival"));
         }
         return players.size();
     }
