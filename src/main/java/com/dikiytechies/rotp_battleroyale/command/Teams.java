@@ -51,7 +51,7 @@ public class Teams {
                 for (ServerPlayerEntity s : players) {
                     if (!s.gameMode.isSurvival()) toRemoveNonSurv.add(s);
                 }
-                if (i != amount - 1 || i % amount == 0) {
+                if (i != amount - 1 || players.size() % amount == 0) {
                     spaces.put(scoreboard.getPlayerTeam("br_" + i), (int) Math.floor((double) players.size() / amount));
                 } else {
                     spaces.put(scoreboard.getPlayerTeam("br_" + i), players.size() % amount);

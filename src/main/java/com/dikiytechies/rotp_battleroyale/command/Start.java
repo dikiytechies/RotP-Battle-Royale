@@ -2,7 +2,6 @@ package com.dikiytechies.rotp_battleroyale.command;
 
 import com.github.standobyte.jojo.command.JojoCommandsCommand;
 import com.mojang.brigadier.CommandDispatcher;
-import com.mojang.brigadier.arguments.IntegerArgumentType;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
 import net.minecraft.entity.player.PlayerEntity;
@@ -10,7 +9,6 @@ import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.StringNBT;
 
 import java.util.List;
@@ -18,7 +16,7 @@ import java.util.List;
 public class Start {
     public static void register(CommandDispatcher<CommandSource> dispatcher) {
         dispatcher.register(Commands.literal("battleroyalestart").requires(ctx -> ctx.hasPermission(2))
-                .then(Commands.literal("fill").executes(ctx -> giveElytra(ctx.getSource())))
+                .executes(ctx -> giveElytra(ctx.getSource()))
         );
         JojoCommandsCommand.addCommand("battleroyalestart");
     }
